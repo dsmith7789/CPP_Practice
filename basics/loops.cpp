@@ -15,7 +15,7 @@ int main() {
     }
 
     // iterator loop: makes copies of each character
-    cout << "Iterator Loop" << endl;
+    cout << "Iterator Loop; makes copy of the variable, doesn't change original" << endl;
     for (char c : quote) {
         cout << c << endl;
     }
