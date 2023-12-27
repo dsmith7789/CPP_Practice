@@ -11,6 +11,11 @@
 
 class testBasicHand {
     public:
+        Hand test_createEmptyHand();
+        Hand test_createFullHand();
+        bool test_addCards(Hand hand);
+        bool test_nonExistentRemoval(Hand hand);
+        bool test_validRemoval(Hand hand);
         void run();
 };
 

@@ -5,69 +5,58 @@
 
 #include "testBasicHand.h"
 
-void testBasicHand::run() {
-    // make sure we can create an empty hand
+Hand testBasicHand::test_createEmptyHand() {
+    std::cout << "Testing creation of empty hand" << std::endl;
     Hand emptyHand;
-    std::cout << "Empty Hand: " << emptyHand.display() << std::endl;
+    std::cout << "Success" << std::endl;
+    return emptyHand;
+}
 
-    // make sure we can create a hand with cards in it
+Hand testBasicHand::test_createFullHand() {
+    std::cout << "Testing creation of full hand" << std::endl;
     std::vector<Card> cards{Card(Card::ACE, Card::CLUBS), Card(Card::FOUR, Card::DIAMONDS)};
     Hand fullHand(cards);
-    std::cout << "Full Hand: " << fullHand.display() << std::endl;
+    std::cout << "Success" << std::endl;
+    return fullHand;
+}
 
-    int emptyHandCards = emptyHand.numCards();
-    int fullHandCards = fullHand.numCards();
+bool testBasicHand::test_addCards(Hand hand) {
+    std::cout << "Testing adding cards" << std::endl;
+    int prevCards = hand.numCards();
+    hand.addCard(Card(Card::FIVE, Card::SPADES));
+    std::cout << "Success" << std::endl;
+    return (prevCards + 1) == hand.numCards();
+}
 
-    // make sure that adding cards to a hand shows in the display
-    std::cout << "Before, empty Hand has " << emptyHand.numCards() << " cards." << std::endl;
-    std::cout << "Before, full Hand has " << fullHand.numCards() << " cards." << std::endl;
-    emptyHand.addCard(Card(Card::FIVE, Card::SPADES));
-    fullHand.addCard(Card(Card::SEVEN, Card::HEARTS));
-    std::cout << "After, empty Hand has " << emptyHand.numCards() << " cards." << std::endl;
-    std::cout << "After, full Hand has " << fullHand.numCards() << " cards." << std::endl;
+bool testBasicHand::test_nonExistentRemoval(Hand hand) {
+    std::cout << "Testing removal of non-existent cards" << std::endl;
+    int prevCards = hand.numCards();
+    hand.removeCard(Card::FIVE, Card::SPADES);
+    std::cout << "Success" << std::endl;
+    return prevCards == hand.numCards();  
+}
 
-    std::cout << "After, empty SHOULD have " << (emptyHandCards + 1) << " cards" << std::endl;
-    std::cout << "After, full SHOULD have " << (fullHandCards + 1) << " cards" << std::endl;
+bool testBasicHand::test_validRemoval(Hand hand) {
+    std::cout << "Testing removal of a valid card" << std::endl;
+    std::cout << "Previous Hand: " << hand.display() << std::endl;
+    int prevCards = hand.numCards();
+    hand.removeCard(Card::FIVE, Card::SPADES);
+    std::cout << "After removal: " << hand.display() << std::endl;
+    std::cout << "Success" << std::endl;
+    return (prevCards - 1) == hand.numCards();
+}
 
-    int x = 5;
-    assert(x == 5);
+void testBasicHand::run() {
+    std::cout << "BEGIN BASIC HAND TESTS" << std::endl;
 
-    std::cout << "Empty check: " << std::boolalpha << (emptyHand.numCards() == (emptyHandCards + 1)) << std::endl;
-    std::cout << "Full check: " << std::boolalpha << (fullHand.numCards() == (fullHandCards + 1)) << std::endl;
-
-    int modified_emptyHandCards = emptyHand.numCards();
-    int modified_fullHandCards = fullHand.numCards();
-
-    assert(modified_emptyHandCards == (emptyHandCards + 1));
-    assert(modified_fullHandCards == (fullHandCards + 1));
-
-    std::cout << "Got here 1?" << std::endl;
-
-    emptyHandCards = emptyHand.numCards();
-    fullHandCards = fullHand.numCards();
-
-    // make sure that we can't remove a card from a hand that isn't in the hand
-    emptyHand.removeCard(Card::KING, Card::SPADES);
-    fullHand.removeCard(Card::KING, Card::SPADES);
-    modified_emptyHandCards = emptyHand.numCards();
-    modified_fullHandCards = fullHand.numCards();
-    assert(modified_emptyHandCards == emptyHandCards);
-    assert(modified_fullHandCards == fullHandCards);
-
-    std::cout << "Got here 2?" << std::endl;
-
-    emptyHandCards = emptyHand.numCards();
-    fullHandCards = fullHand.numCards();
-
-    // make sure that removing cards shows in the display correctly
-    emptyHand.removeCard(Card::FIVE, Card::SPADES);
-    std::cout << "Empty Hand: " << emptyHand.display() << std::endl;
-    fullHand.removeCard(Card::ACE, Card::CLUBS);
-    std::cout << "Full Hand: " << fullHand.display() << std::endl;
-    modified_emptyHandCards = emptyHand.numCards();
-    modified_fullHandCards = fullHand.numCards();
-    assert(modified_emptyHandCards == emptyHandCards - 1);
-    assert(modified_fullHandCards == fullHandCards - 1);
+    Hand emptyHand = test_createEmptyHand();
+    Hand fullHand = test_createFullHand();
+    assert(test_addCards(emptyHand));
+    assert(test_addCards(fullHand));
+    assert(test_nonExistentRemoval(emptyHand));
+    assert(test_nonExistentRemoval(fullHand));
+    assert(test_validRemoval(emptyHand));
+    assert(test_validRemoval(fullHand));
 
     std::cout << "ALL BASIC HAND TESTS PASSED" << std::endl;
 }

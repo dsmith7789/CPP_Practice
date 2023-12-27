@@ -21,6 +21,8 @@ class Card {
         void setSuit(Suit suit);
         void setRank(Rank rank);
         std::string display() const;
+        bool sameSuit(Card card);
+        bool sameRank(Card card);
     private:
         Suit _suit;
         Rank _rank;

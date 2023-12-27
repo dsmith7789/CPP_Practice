@@ -44,3 +44,11 @@ void Card::setRank(Rank rank) {
 std::string Card::display() const {
     return getRank() + " of " + getSuit();
 }
+
+bool Card::sameRank(Card card) {
+    return card.getRank() == this->getRank();
+}
+
+bool Card::sameSuit(Card card) {
+    return card.getSuit() == this->getSuit();
+}

@@ -14,13 +14,11 @@ void Hand::addCard(Card card) {
 }
         
 Card Hand::removeCard(Card::Rank rank, Card::Suit suit) {
-    Card removed;
+    Card removed(rank, suit);
     int removeIndex = 0;
     bool found = false;
     for (auto c : this->_cards) {
-        if ( c.getSuit() == std::to_string(suit) && c.getRank() == std::to_string(rank) ) {
-            removed.setSuit(suit);
-            removed.setRank(rank);
+        if ( removed.sameRank(c) && removed.sameSuit(c) ) {
             found = true;
             break;
         } else {
@@ -29,6 +27,9 @@ Card Hand::removeCard(Card::Rank rank, Card::Suit suit) {
     }
     if (found) {
         this->_cards.erase(this->_cards.begin() + removeIndex);
+    } else {
+        Card placeholder;
+        return placeholder;
     }
     return removed;
 }
